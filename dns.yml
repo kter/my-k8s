@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dns
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dns-deployment
+  namespace: dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dns
+  template:
+    metadata:
+      labels:
+        app: dns
+    spec:
+      containers:
+        - name: dns
+          image: kter/my-unbound:v0.0.2
+          ports:
+            - containerPort: 53
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dns-service
+  namespace: dns
+spec:
+  type: NodePort
+  ports:
+    - port: 53
+      protocol: UDP
+      targetPort: 53
+    - port: 53
+      protocol: TCP
+      targetPort: 53
+  selector:
+    app: dns
