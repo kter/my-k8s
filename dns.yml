@@ -22,7 +22,7 @@ spec:
         app: unbound
     spec:
       containers:
-      - image: kter/my-unbound
+      - image: kter/my-unbound:v0.0.3
         name: unbound
         ports:
           - name: udp
