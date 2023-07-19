@@ -1,46 +1,45 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: dns
-
+  name: unbound
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dns-deployment
-  namespace: dns
+  labels:
+    app: unbound
+  name: unbound
+  namespace: unbound
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: dns
+      app: unbound
   template:
     metadata:
       labels:
-        app: dns
+        app: unbound
     spec:
       containers:
-        - name: dns
-          image: kter/my-unbound:v0.0.2
-          ports:
-            - containerPort: 53
-
+      - image: kter/my-unbound
+        name: unbound
+        ports:
+          - name: udp
+            containerPort: 53
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: dns-service
-  namespace: dns
+  name: unbound
+  namespace: unbound
+  labels:
+    app: unbound
 spec:
-  type: NodePort
   ports:
-    - port: 53
+    - name: dns
+      port: 53
       protocol: UDP
-      targetPort: 53
-    - port: 53
-      protocol: TCP
-      targetPort: 53
   selector:
-    app: dns
+    app: unbound
+  type: LoadBalancer
