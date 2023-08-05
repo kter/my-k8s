@@ -130,7 +130,7 @@ spec:
     spec:
       containers:
       - name: fluent-bit
-        image: fluent/fluent-bit
+        image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
         env:
           # kubectl create secret generic aws-creds -n logging --from-literal=aws_access_key_id=<your-aws-access-key-id> --from-literal=aws_secret_access_key=<your-aws-secret-access-key>
           - name: AWS_ACCESS_KEY_ID
