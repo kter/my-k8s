@@ -25,6 +25,8 @@ spec:
         image: kter/my-rsyslog:v0.0.3
         ports:
          - containerPort: 514
+           protocol: UDP
+
 
 apiVersion: v1
 kind: Service
@@ -36,7 +38,7 @@ spec:
   ports:
    - name: syslog
      port: 514
-     protocol: TCP
+     protocol: UDP
   selector:
     app: rsyslog-server
 
