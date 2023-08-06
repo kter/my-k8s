@@ -144,15 +144,14 @@ spec:
                 name: aws-creds
                 key: aws_secret_access_key
         volumeMounts:
-        - name: containerlog
-          mountPath: /var/log/containers
-          readOnly: true
+        - name: varlog
+          mountPath: /var/log
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
       volumes:
-      - name: containerlog
+      - name: varlog
         hostPath:
-          path: /var/log/containers
+          path: /var/log
       - name: fluent-bit-config
         configMap:
           name: fluent-bit-config
